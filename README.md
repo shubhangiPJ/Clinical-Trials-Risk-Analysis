@@ -1,10 +1,12 @@
 # Clinical Trial Portfolio & Risk Intelligence Dashboard
 
-An end-to-end analytics project examining termination risk across 11,110 clinical trials, built to identify which trial characteristics (therapeutic area, phase, enrollment size) are associated with the highest risk of early termination.
+An end-to-end analytics project examining termination risk across 11,110 clinical trials, designed to identify which trial characteristics (therapeutic area, phase, enrollment size) are associated with the highest risk of early termination.
 
 🔗 **[View the live interactive dashboard on Tableau Public](https://public.tableau.com/views/Clinical_Trials_analysis/RiskOverview)**
 
----e:\Shubh_Coursera\Google Data Analytics\Capstone_Project\Tableau_dashboard\Risk_overview_dashboard_preview.png
+![Dashboard Preview](Tableau_dashboard/Risk_overview_dashboard_preview.png)
+
+---
 
 ## Overview
 
@@ -18,6 +20,16 @@ Clinical trial termination can significantly increase development costs and dela
 - **Phase 2 trials have the highest termination rate (15.8%)** of any phase — higher than even Phase 1, suggesting the largest drop-off risk occurs after early safety signals but before late-stage confirmation.
 - **Oncology carries the highest termination risk (14.2%)** among the four therapeutic areas studied, despite also having among the longest average trial durations.
 - **Small-enrollment trials (<50 participants) terminate at 14.7%** — over 4x the rate of trials with 500+ participants (3.3%), pointing to enrollment size as a strong risk signal independent of therapeutic area or phase.
+
+## Skills Demonstrated
+
+- Data Cleaning & Validation
+- Exploratory Data Analysis (EDA)
+- SQL Aggregation & Grouping
+- Data Visualization
+- KPI Design
+- Dashboard Development
+- Healthcare Analytics
 
 ## Pipeline
 
@@ -50,11 +62,25 @@ Capstone_Project/
 ├── SQL_query_results/        # Query output exports (Q1–Q7)
 ├── Tableau_dashboard/
 │   ├── Clinical_Trials_analysis.twb
-│   └── Clinical_Trials_analysis.twbx
+│   ├── Clinical_Trials_analysis.twbx
+│   └── Risk_overview_dashboard_preview.png
 ├── Data/                     # Raw/processed data + SQLite DB (gitignored)
 ├── cleaning_summary.md
 └── README.md
 ```
+
+## Requirements
+
+- Python 3.12+
+- pandas
+- requests
+- SQLite
+- Tableau Public
+
+## Future Enhancements
+
+- Incorporate additional therapeutic areas.
+- Automate data refresh from the ClinicalTrials.gov API.
 
 ## Notes on the Analysis
 
