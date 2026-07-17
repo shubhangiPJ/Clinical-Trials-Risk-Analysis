@@ -1,4 +1,8 @@
 # Clinical Trial Portfolio & Risk Intelligence Pipeline
+<img width="1920" height="1020" alt="image" src="https://github.com/user-attachments/assets/5e5a194e-d080-45dd-a403-d8a1a87dd4b3" />
+Live Dashboard:
+https://public.tableau.com/views/Clinical_Trials_analysis/RiskOverview?:language=en-US&:sid=&:display_count=n&:origin=viz_share_link
+
 
 ## Business Case & Objective
 Pharma market intelligence and asset development teams (the kind of work done by firms like Norstella/Citeline and ZS Associates) need clear visibility into pipeline risk to guide capital allocation and portfolio decisions. This project builds a data pipeline to evaluate clinical trial risk across four therapeutic areas: **Oncology, Cardiology, Neurology, and Immunology**.
