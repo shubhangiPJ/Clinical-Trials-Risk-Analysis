@@ -1,5 +1,4 @@
 # Clinical Trial Portfolio & Risk Intelligence Pipeline
-<img width="1920" height="1020" alt="image" src="https://github.com/user-attachments/assets/5e5a194e-d080-45dd-a403-d8a1a87dd4b3" />
 Live Dashboard:
 https://public.tableau.com/views/Clinical_Trials_analysis/RiskOverview?:language=en-US&:sid=&:display_count=n&:origin=viz_share_link
 
