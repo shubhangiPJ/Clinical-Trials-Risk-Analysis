@@ -1,86 +1,66 @@
-# Clinical Trial Portfolio & Risk Intelligence Pipeline
-Live Dashboard:
-https://public.tableau.com/views/Clinical_Trials_analysis/RiskOverview?:language=en-US&:sid=&:display_count=n&:origin=viz_share_link
+# Clinical Trial Portfolio & Risk Intelligence Dashboard
 
+An end-to-end analytics project examining termination risk across 11,110 clinical trials, built to identify which trial characteristics (therapeutic area, phase, enrollment size) are associated with the highest risk of early termination.
 
-## Business Case & Objective
-Pharma market intelligence and asset development teams (the kind of work done by firms like Norstella/Citeline and ZS Associates) need clear visibility into pipeline risk to guide capital allocation and portfolio decisions. This project builds a data pipeline to evaluate clinical trial risk across four therapeutic areas: **Oncology, Cardiology, Neurology, and Immunology**.
+🔗 **[View the live interactive dashboard on Tableau Public](https://public.tableau.com/views/Clinical_Trials_analysis/RiskOverview)**
 
-**Business questions this project answers:**
-- Which therapeutic areas have the highest trial termination rates, and what factors correlate with early termination?
-- How do trial design factors (phase, enrollment size, sponsor type) relate to trial duration and outcome?
+---e:\Shubh_Coursera\Google Data Analytics\Capstone_Project\Tableau_dashboard\Risk_overview_dashboard_preview.png
 
-## Tools Used
-- **Data collection:** Python (`requests`) — pulls data from the public ClinicalTrials.gov API v2
-- **Data cleaning:** Python (`pandas`, `numpy`)
-- **Storage:** SQLite (local relational database)
-- **Analysis:** SQL
-- **Visualization:** Tableau Public
+## Overview
 
-## Pipeline Overview
+Clinical trial termination can significantly increase development costs and delay new therapies. This project analyzes 11,110 clinical trials from ClinicalTrials.gov to identify patterns associated with trial termination, focusing on therapeutic area, trial phase, and enrollment size.
 
-### Step 1: Data Collection — `01_data_collection.py`
-Pulls trial records from `clinicaltrials.gov/api/v2/studies` for each therapeutic area, handling pagination via the API's `nextPageToken`. Extracts key fields: NCT ID, condition, phase, status, dates, enrollment, sponsor. Output: `clinical_trials_raw.csv`.
-
-### Step 2: Data Cleaning — `02_data_cleaning.py`
-- Standardizes phase values (e.g., `PHASE1`, `PHASE2` → readable labels)
-- Parses inconsistent date formats (API mixes `YYYY-MM` and `YYYY-MM-DD`)
-- Calculates trial duration in months; nulls out impossible values (negative or >20 years, likely data entry errors)
-- Flags terminated/withdrawn/suspended trials
-- Filters to interventional studies only (removes observational study noise)
-
-Output: `clinical_trials_clean.csv`.
-
-### Step 3: Load to Database — `03_load_to_sqlite.py`
-Loads the cleaned CSV into a local SQLite database (`clinical_trials.db`) for SQL-based analysis.
-
-### Step 4: Analysis — `04_analysis_queries.sql`
-SQL queries covering:
-- Termination rate by therapeutic area
-- Termination rate by phase
-- Average trial duration by area and phase
-- Top reasons trials stop
-- Termination rate by sponsor type
-- Termination rate by enrollment size bucket
-- Trials started per year (trend line)
-
-### Step 5: Modeling *(if included)*
-`[Describe model here once built — e.g., logistic regression predicting termination using phase, enrollment size, and therapeutic area as features. State the accuracy/key coefficients.]`
-
----
+**Data source:** ClinicalTrials.gov API v2, pulled July 2026
+**Scope:** 11,110 trials across oncology, neurology, cardiology, and immunology
 
 ## Key Findings
-`[Fill this in after running the pipeline on real data — pull the actual numbers from your SQL output, e.g.:]`
-- `[Therapeutic area X] shows a termination rate of __%, compared to __% average across all areas.`
-- `[Phase __] trials show the highest/lowest termination rate at __%.`
-- `[Sponsor type] trials have a termination rate of __% vs. __% for [other sponsor type].`
-- `[Enrollment bucket] trials terminate at __% vs. __% for larger trials.`
 
-*(Only include a finding here once you've actually verified it against your own query output — no placeholder numbers.)*
+- **Phase 2 trials have the highest termination rate (15.8%)** of any phase — higher than even Phase 1, suggesting the largest drop-off risk occurs after early safety signals but before late-stage confirmation.
+- **Oncology carries the highest termination risk (14.2%)** among the four therapeutic areas studied, despite also having among the longest average trial durations.
+- **Small-enrollment trials (<50 participants) terminate at 14.7%** — over 4x the rate of trials with 500+ participants (3.3%), pointing to enrollment size as a strong risk signal independent of therapeutic area or phase.
 
-## Business Recommendation
-`[This is the most important section — one or two sentences translating a finding into an actionable recommendation, the way a consulting deliverable would. E.g.: "Given the elevated termination rate in [area] driven largely by [enrollment shortfalls / a specific why_stopped reason], portfolio teams evaluating new [area] assets should weight site-selection and enrollment feasibility more heavily in early risk assessment."]`
+## Pipeline
 
-## Dashboard
-`[Link to your published Tableau Public dashboard]`
+| Stage | File | What it does |
+|---|---|---|
+| 1. Data Collection | `Scripts/01_data_collection.py` | Pulls trial records from the ClinicalTrials.gov API v2 across four therapeutic areas |
+| 2. Data Cleaning | `Scripts/02_data_cleaning.py` | Standardizes trial phases, calculates trial duration, flags terminated trials |
+| 3. Database Load | `Scripts/03_load_to_sqlite.py` | Loads cleaned data into a SQLite database with indexes for query performance |
+| 4. Analysis | `SQL/04_analysis_queries.sql`, `SQL/04a_analysis_queries.sql` | SQL queries covering termination rates, duration, sponsor class, enrollment risk, and phase/therapeutic-area breakdowns |
+| 5. Visualization | `Tableau_dashboard/Clinical_Trials_analysis.twb` | Tableau dashboard built on the analysis query outputs |
+
+## Tools & Tech
+
+- **Python** (pandas) — data collection and cleaning
+- **SQLite** — data storage and querying
+- **DBeaver** — SQL client used for query development and validation
+- **Tableau Public** — dashboard and visualization
+
+## Repository Structure
+
+```
+Capstone_Project/
+├── Scripts/
+│   ├── 01_data_collection.py
+│   ├── 02_data_cleaning.py
+│   └── 03_load_to_sqlite.py
+├── SQL/
+│   ├── 04_analysis_queries.sql
+│   └── 04a_analysis_queries.sql
+├── SQL_query_results/        # Query output exports (Q1–Q7)
+├── Tableau_dashboard/
+│   ├── Clinical_Trials_analysis.twb
+│   └── Clinical_Trials_analysis.twbx
+├── Data/                     # Raw/processed data + SQLite DB (gitignored)
+├── cleaning_summary.md
+└── README.md
+```
+
+## Notes on the Analysis
+
+- Trials marked "Not Applicable" for phase were excluded from phase-based analysis to keep comparisons consistent.
+- Termination reason categorization (Q4) is an area of ongoing refinement — a meaningful share of terminated trials currently fall under an "Other/unspecified" reason code, which is being investigated further.
 
 ---
 
-## How to Run Locally
-
-```bash
-git clone https://github.com/YOUR_USERNAME/clinical-trial-risk-analytics.git
-cd clinical-trial-risk-analytics
-pip install requests pandas
-```
-
-Then run the scripts in order:
-```bash
-python 01_data_collection.py
-python 02_data_cleaning.py
-python 03_load_to_sqlite.py
-```
-Then open `clinical_trials.db` in DB Browser for SQLite (or query it from Python) and run the queries in `04_analysis_queries.sql`.
-
-## Data Source
-[ClinicalTrials.gov API v2](https://clinicaltrials.gov/data-api/api) — public, no authentication required.
+*This project demonstrates an end-to-end analytics workflow encompassing data acquisition, cleaning, SQL-based analysis, and interactive dashboard development using Python, SQLite, and Tableau.*
